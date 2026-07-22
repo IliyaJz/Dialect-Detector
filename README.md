@@ -18,10 +18,15 @@ The five dialects in the dataset are: **Torki**, **Kordi**, **Mashhadi**, **Isfa
 
 ```
 Dialect-Detector/
-├── phase1.pdf          # Phase 1 report: data collection plan & methodology
-├── phase2.ipynb        # Phase 2 notebook: preprocessing & feature extraction
-├── report2.pdf         # Phase 2 written report
-└── README.md
+├── .gitignore              # Git ignore rules for Python, Jupyter & system files
+├── README.md               # Project documentation
+├── notebooks/              # Jupyter notebooks
+│   ├── phase2.ipynb        # Phase 2 notebook: Preprocessing & feature extraction
+│   └── phase3.ipynb        # Phase 3 notebook: Supervised modeling & dialect clustering
+└── reports/                # PDF reports
+    ├── phase1_report.pdf   # Phase 1 report: Data collection plan & methodology
+    ├── phase2_report.pdf   # Phase 2 report: Preprocessing & EDA
+    └── phase3_report.pdf   # Phase 3 report: Final classification, clustering & evaluation
 ```
 
 ---
@@ -50,6 +55,20 @@ Working from the combined raw dataset, the pipeline:
 
 An initial EDA (PCA visualization, per-dialect feature distributions) is included in the notebook.
 
+### Phase 3 — Modeling, Classification & Clustering
+Phase 3 builds the core predictive models and unsupervised clustering analysis:
+
+1. **Supervised Classification**:
+   - **Gender Classification**: Trained and evaluated models for binary gender detection.
+   - **Dialect Classification**: Evaluated baseline classifiers (Random Forest, SVM, XGBoost, LightGBM, MLP) and implemented **Advanced Feature Fusion** (LDA + PCA & Triple Feature Fusion).
+   - **Class Imbalance & Validation**: Utilized **SMOTE** (Synthetic Minority Over-sampling Technique) and group/stratified speaker splits to prevent data leakage.
+   - **Ensemble Modeling**: Built a Stacking Classifier and evaluated performance on the official test set.
+
+2. **Unsupervised Dialect Clustering**:
+   - Evaluated clustering algorithms: **K-Means**, **Gaussian Mixture Models (GMM)**, **DBSCAN**, and **Agglomerative Clustering**.
+   - Evaluated cluster quality via Silhouette Score, Calinski-Harabasz Index, Davies-Bouldin Index, and NMI/ARI metrics.
+   - Low-dimensional 2D/3D visualizations using **PCA** and **t-SNE**, alongside per-sample silhouette analysis.
+
 ---
 
 ## Tech Stack
@@ -58,6 +77,7 @@ An initial EDA (PCA visualization, per-dialect feature distributions) is include
 |------|-------|
 | Audio processing | `librosa`, `soundfile` |
 | Feature extraction | MFCC, Log-Mel Spectrogram, Spectral Contrast, ZCR, LPC |
+| Machine Learning | `scikit-learn`, `xgboost`, `lightgbm`, `imbalanced-learn` (SMOTE) |
 | Data handling | `pandas`, `numpy` |
 | Visualization | `matplotlib`, `seaborn` |
 | Notebooks | Jupyter |
@@ -69,8 +89,8 @@ An initial EDA (PCA visualization, per-dialect feature distributions) is include
 ```bash
 git clone https://github.com/IliyaJz/Dialect-Detector.git
 cd Dialect-Detector
-pip install librosa soundfile numpy pandas matplotlib seaborn jupyter
-jupyter notebook phase2.ipynb
+pip install librosa soundfile numpy pandas scikit-learn xgboost lightgbm imbalanced-learn matplotlib seaborn jupyter
+jupyter notebook notebooks/phase3.ipynb
 ```
 
 > The raw audio dataset is hosted separately by the course team. See the Google Drive link in `phase2.ipynb` or contact the project authors.
